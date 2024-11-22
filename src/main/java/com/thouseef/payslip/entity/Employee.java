@@ -3,9 +3,13 @@ package com.thouseef.payslip.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@Data
 @Table(name="employee")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,4 +24,5 @@ public class Employee {
 
     @Column(name = "last_name")
     private String last_name;
+
 }
