@@ -10,7 +10,10 @@ public record EmployeeResponse (
         String first_name,
 
         @JsonProperty("last_name")
-        String last_name
+        String last_name,
+
+        @JsonProperty("email")
+        String email
 
 )
 {

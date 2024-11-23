@@ -13,10 +13,12 @@ public class EmployeeMapper {
                 .id(request.id())
                 .first_name(request.first_name())
                 .last_name(request.last_name())
+                .email(request.email())
+                .password(request.password())
                 .build();
     }
     public EmployeeResponse toEmployeeResponse(Employee employee) {
-        return new EmployeeResponse(employee.getId(), employee.getFirst_name(), employee.getLast_name());
+        return new EmployeeResponse(employee.getId(), employee.getFirst_name(), employee.getLast_name(), employee.getEmail());
     }
 }
 

@@ -7,20 +7,28 @@ import jakarta.validation.constraints.NotNull;
 
 public record EmployeeRequest (
 
-    @NotNull(message = "Employee id should not be NULL")
-    @NotEmpty(message = "Employee id should not be empty")
-    @NotBlank(message = "Employee id should not be blank")
     @JsonProperty("id")
     long id,
 
     @NotNull(message = "first name id should not be NULL")
     @NotEmpty(message = "first name id should not be empty")
     @NotBlank(message = "first name id should not be blank")
-    @JsonProperty("id")
+    @JsonProperty("first_name")
     String first_name,
 
     @JsonProperty("last_name")
-    String last_name
+    String last_name,
+
+
+    @JsonProperty("email")
+    String email,
+
+
+    @NotNull(message = "Password is mandatory")
+    @JsonProperty("password")
+    String password
+
+
 
 )
 {

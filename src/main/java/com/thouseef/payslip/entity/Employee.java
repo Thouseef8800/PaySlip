@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class Employee {
 
     @Id
+    @Column(name = "employee_id", unique=true, nullable=false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
@@ -25,4 +26,9 @@ public class Employee {
     @Column(name = "last_name")
     private String last_name;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
 }
