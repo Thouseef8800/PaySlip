@@ -1,69 +1,49 @@
 package com.thouseef.payslip.service;
 
+
 import com.thouseef.payslip.dto.EmployeeRequest;
 import com.thouseef.payslip.dto.EmployeeResponse;
 import com.thouseef.payslip.dto.LoginRequest;
 import com.thouseef.payslip.entity.Employee;
-import com.thouseef.payslip.exception.CustomerNotFoundException;
 import com.thouseef.payslip.helper.JWTHelper;
 import com.thouseef.payslip.mapper.EmployeeMapper;
 import com.thouseef.payslip.repo.EmployeeRepo;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
+    @Autowired
     private final EmployeeRepo employeeRepo;
+    @Autowired
     private final EmployeeMapper employeeMapper;
-    private final EncryptionService encryptionService;
-    private final JWTHelper jwtHelper;
-    private final PasswordEncoder passwordEncoder;
-    private final RequestInterceptor requestInterceptor;
+    @Autowired
+    private final JWTHelper jwtService;
 
-    public String createEmployee(EmployeeRequest request) {
+    @Autowired
+    AuthenticationManager authManager;
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    public EmployeeResponse createEmployee(EmployeeRequest request) {
         Employee employee = employeeMapper.toEmployee(request);
-        if (employee.getPassword() == null) {
-            throw new IllegalArgumentException("Password cannot be null");
-        }
-
-        String encrypted = passwordEncoder.encode(employee.getPassword());
-        employee.setPassword(encrypted);
-
-
-        employeeRepo.save(employee);
-        return "Employee created successfully";
-    }
-    public Employee getEmployeeById(long id) {
-        return employeeRepo.findById(id).orElseThrow(
-                () -> new CustomerNotFoundException("Employee with id " + id + " not found")
-        );
-
-    }
-
-    public Employee getEmployeeByEmail(String email) {
-        return employeeRepo.findByEmail(email).orElseThrow(
-                () -> new CustomerNotFoundException("Employee with email " + email + " not found")
-        );
-    }
-
-    public EmployeeResponse retrieveEmployee(long id){
-        Employee employee = getEmployeeById(id);
-        return employeeMapper.toEmployeeResponse(employee);
+        employee.setPassword(encoder.encode(employee.getPassword()));
+        return employeeMapper.toEmployeeResponse(employeeRepo.save(employee));
     }
 
 
-    public String login(@Valid LoginRequest request) {
-        System.out.println("At the login service");
-        Employee employee = getEmployeeByEmail((request.email()));
-        if(! encryptionService.validates(request.password(), employee.getPassword())) {
-            return "Wrong password";
-        }
+    public String login(LoginRequest request) {
+        Authentication authentication=authManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
-        return jwtHelper.generateToken(employee.getEmail());
+        if(authentication.isAuthenticated())
+            return jwtService.generateToken(request.email());
 
+        return "Fail";
     }
-
 }

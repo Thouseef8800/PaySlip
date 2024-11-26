@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class UserPrincipal implements UserDetails {
+public class EmployeePrincipal implements UserDetails {
 
-    private final Employee user;
+    private Employee user;
 
-    public UserPrincipal(Employee user) {
+    public EmployeePrincipal(Employee user) {
         this.user=user;
-    }
+   }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

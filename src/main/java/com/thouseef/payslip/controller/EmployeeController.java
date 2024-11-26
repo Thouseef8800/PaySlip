@@ -20,13 +20,9 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> getEmployee(@PathVariable("id") long id) {
-      return ResponseEntity.ok(employeeService.retrieveEmployee(id));
-  }
 
   @PostMapping
-    public ResponseEntity<String> createEmployee(@RequestBody @Valid EmployeeRequest request) {
+    public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody @Valid EmployeeRequest request) {
         return ResponseEntity.ok(employeeService.createEmployee(request));
   }
 

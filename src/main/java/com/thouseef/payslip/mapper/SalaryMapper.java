@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SalaryMapper {
-    public SalarySlipResponse toSalaryResponse(SalarySlip salary) {
+    public SalarySlipResponse toSalarySlipResponse(SalarySlip salary) {
         return new SalarySlipResponse(
                 salary.getDisbursementDate(),
                 salary.getAmount(),
@@ -15,5 +15,6 @@ public class SalaryMapper {
                 salary.getEmployees().getLast_name()
         );
     }
+
 
 }

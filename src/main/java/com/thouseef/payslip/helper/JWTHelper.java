@@ -1,10 +1,10 @@
 package com.thouseef.payslip.helper;
 
-import io.jsonwebtoken.Claims;
+//import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import static io.jsonwebtoken.Jwts.parser;
+import static java.util.stream.DoubleStream.builder;
+
+
+//import static io.jsonwebtoken.Jwts.*;
 
 @Service
 public class JWTHelper {
@@ -57,6 +63,7 @@ public class JWTHelper {
 
     public String extractUserName(String token) {
         // extract the username from jwt token
+
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -66,7 +73,7 @@ public class JWTHelper {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
+        return parser()
                 .verifyWith(getKey())
                 .build()
                 .parseSignedClaims(token)

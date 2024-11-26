@@ -41,5 +41,6 @@ public class SalarySlip {
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employees;
 
+
 }
 
