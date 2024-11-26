@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "salary_slip")
@@ -19,21 +20,26 @@ import java.time.LocalDate;
 public class SalarySlip {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
+   @Column(name ="employee_id",insertable = false,updatable = false,nullable = false)
+   private int employee_id;
 
-  private long employee;
 
-  @Column(nullable = false)
+  @Column(name = "amount")
   private Double amount;
 
   @Past(message = "The disbursement date must be a past date")
-  @Column(nullable = false)
-  private LocalDate disbursementDate;
+  @Column(name ="disbursementDate",nullable = false)
+  private Date disbursementDate;
 
-  @Column(nullable = false)
-  private String month;
+  @Column(name = "description")
+  private String description;
+
+  @ManyToOne
+  @JoinColumn(name = "employee_id", nullable = false)
+  private Employee employees;
 
 }
 

@@ -20,8 +20,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login (@Valid @RequestBody LoginRequest request){
-        System.out.println("at the controller");
+    public ResponseEntity<String> login (@RequestBody @Valid  LoginRequest request){
+        System.out.println("recieved login request: " + request);
         return ResponseEntity.ok(employeeService.login(request));
     }
 }

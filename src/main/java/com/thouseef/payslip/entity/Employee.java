@@ -16,9 +16,8 @@ import lombok.NoArgsConstructor;
 public class Employee {
 
     @Id
-    @Column(name = "employee_id", unique=true, nullable=false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long employee_id;
 
     @Column(name = "first_name", nullable = false)
     private String first_name;
@@ -26,9 +25,25 @@ public class Employee {
     @Column(name = "last_name")
     private String last_name;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name="title")
+    private String title;
+
+    @Column(name = "photograph_path")
+    private String photographPath;
+
+    @Column(name ="department")
+    private int department;
+
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department departments;
+
+
 }
