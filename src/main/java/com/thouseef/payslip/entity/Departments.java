@@ -12,17 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "Departments")
-public class Department {
-
+public class Departments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int department_id;
 
     @Column(name = "name", nullable = false)
-    private String first_name;
+    private String firstName;
 
     @Column(name = "capacity")
     private int capacity;
-
 
 }

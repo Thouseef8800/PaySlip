@@ -1,10 +1,10 @@
 package com.thouseef.payslip.service;
 
-import com.thouseef.payslip.dto.SalarySlipResponse;
-import com.thouseef.payslip.entity.SalarySlip;
+import com.thouseef.payslip.dto.SalaryResponse;
+import com.thouseef.payslip.entity.EmployeeSalary;
 import com.thouseef.payslip.mapper.SalaryMapper;
 import com.thouseef.payslip.repo.EmployeeRepo;
-import com.thouseef.payslip.repo.SalarySlipRepo;
+import com.thouseef.payslip.repo.SalaryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class EmployeeSalaryService {
     @Autowired
-    SalarySlipRepo salaryRepo;
+    SalaryRepo salaryRepo;
 
     @Autowired
     private EmployeeRepo employeeRepo;
@@ -22,19 +22,23 @@ public class EmployeeSalaryService {
     @Autowired
     SalaryMapper mapper;
 
-    public SalarySlipResponse getLastSalary(String emailAddress) {
+    public List<SalaryResponse> getLastSalary(String emailAddress) {
+        List<EmployeeSalary> lastSalary = salaryRepo.findByEmployeeId(employeeRepo.findByEmail(emailAddress).getEmployee_id());
+        List<SalaryResponse> salaries = new ArrayList<>();
 
-        return mapper.toSalarySlipResponse(salaryRepo.findByEmployeeId((int) employeeRepo.findByEmail(emailAddress).getEmployee_id()));
+        for (EmployeeSalary employeeSalary : lastSalary) {
+            salaries.add(mapper.toSalaryResponse(employeeSalary));
+        }
+        return salaries;
     }
 
-    public List<SalarySlipResponse> getSalaryHistory(String emailAddress) {
-        List<SalarySlip> latestSalary = salaryRepo.findHistoryByEmployeeId((int) employeeRepo.findByEmail(emailAddress).getEmployee_id());
-        List<SalarySlipResponse> salaryList = new ArrayList<>();
+    public List<SalaryResponse> getSalaryHistory(String emailAddress) {
+        List<EmployeeSalary> latestSalary = salaryRepo.findHistoryByEmployeeId(employeeRepo.findByEmail(emailAddress).getEmployee_id());
+        List<SalaryResponse> salaryList = new ArrayList<>();
 
-        for(SalarySlip employeeSalary : latestSalary) {
-            salaryList.add(mapper.toSalarySlipResponse(employeeSalary));
+        for(EmployeeSalary employeeSalary : latestSalary) {
+            salaryList.add(mapper.toSalaryResponse(employeeSalary));
         }
         return salaryList;
     }
-
 }

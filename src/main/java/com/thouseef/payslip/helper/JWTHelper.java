@@ -1,6 +1,5 @@
 package com.thouseef.payslip.helper;
 
-//import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -23,8 +22,6 @@ import java.util.function.Function;
 import static io.jsonwebtoken.Jwts.parser;
 import static java.util.stream.DoubleStream.builder;
 
-
-//import static io.jsonwebtoken.Jwts.*;
 
 @Service
 public class JWTHelper {

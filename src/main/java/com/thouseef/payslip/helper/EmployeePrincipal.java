@@ -1,6 +1,6 @@
 package com.thouseef.payslip.helper;
 
-import com.thouseef.payslip.entity.Employee;
+import com.thouseef.payslip.entity.Employees;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,9 +10,9 @@ import java.util.Collections;
 
 public class EmployeePrincipal implements UserDetails {
 
-    private Employee user;
+    private Employees user;
 
-    public EmployeePrincipal(Employee user) {
+    public EmployeePrincipal(Employees user) {
         this.user=user;
    }
 

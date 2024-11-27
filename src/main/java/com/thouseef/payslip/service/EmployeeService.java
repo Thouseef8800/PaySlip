@@ -4,7 +4,7 @@ package com.thouseef.payslip.service;
 import com.thouseef.payslip.dto.EmployeeRequest;
 import com.thouseef.payslip.dto.EmployeeResponse;
 import com.thouseef.payslip.dto.LoginRequest;
-import com.thouseef.payslip.entity.Employee;
+import com.thouseef.payslip.entity.Employees;
 import com.thouseef.payslip.helper.JWTHelper;
 import com.thouseef.payslip.mapper.EmployeeMapper;
 import com.thouseef.payslip.repo.EmployeeRepo;
@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class EmployeeService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public EmployeeResponse createEmployee(EmployeeRequest request) {
-        Employee employee = employeeMapper.toEmployee(request);
+        Employees employee = employeeMapper.toEmployee(request);
         employee.setPassword(encoder.encode(employee.getPassword()));
         return employeeMapper.toEmployeeResponse(employeeRepo.save(employee));
     }
@@ -45,5 +46,9 @@ public class EmployeeService {
             return jwtService.generateToken(request.email());
 
         return "Fail";
+    }
+
+    public EmployeeResponse employeeDetails(String emailAddress) {
+        return employeeMapper.toEmployeeResponse(employeeRepo.findByEmail(emailAddress));
     }
 }

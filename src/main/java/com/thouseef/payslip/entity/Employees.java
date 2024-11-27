@@ -7,43 +7,40 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Builder
 @Data
-@Table(name="employee")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employee {
-
+@Entity
+@Table(name = "employees")
+public class Employees {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long employee_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int employee_id;
 
     @Column(name = "first_name", nullable = false)
-    private String first_name;
+    private String firstName;
 
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name="password", nullable = false)
     private String password;
 
     @Column(name="title")
     private String title;
 
-    @Column(name = "photograph_path")
+    @Column(name="photograph_path")
     private String photographPath;
 
-    @Column(name ="department")
+    @Column(name="department", insertable=false, updatable=false, nullable = false)
     private int department;
 
-
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department departments;
-
+    @JoinColumn(name = "department")
+    private Departments departments;
 
 }

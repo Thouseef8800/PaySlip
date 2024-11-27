@@ -1,20 +1,17 @@
 package com.thouseef.payslip.mapper;
 
 
-import com.thouseef.payslip.dto.SalarySlipResponse;
-import com.thouseef.payslip.entity.SalarySlip;
+import com.thouseef.payslip.dto.SalaryResponse;
+import com.thouseef.payslip.entity.EmployeeSalary;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SalaryMapper {
-    public SalarySlipResponse toSalarySlipResponse(SalarySlip salary) {
-        return new SalarySlipResponse(
-                salary.getDisbursementDate(),
+    public SalaryResponse toSalaryResponse(EmployeeSalary salary) {
+        return new SalaryResponse(
+                salary.getPaymentDate(),
                 salary.getAmount(),
-                salary.getEmployees().getFirst_name(),
-                salary.getEmployees().getLast_name()
+                salary.getDescription()
         );
     }
-
-
 }
